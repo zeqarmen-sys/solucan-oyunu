@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solucan ve Karga</title>
+
+<style>
+body {
+  margin: 0;
+  background: #1b5e20;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+#container {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+#score {
+  color: white;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+#game {
+  width: 100%;
+  height: 420px;
+  background: #4caf50;
+  border: 4px solid #0d3b12;
+  position: relative;
+}
+
+.worm, .crow {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+}
+</style>
+</head>
+
+<body>
+<div id="container">
+  <div id="score">Skor: 0</div>
+  <div id="game"></div>
+</div>
+
+<script>
+const game = document.getElementById("game");
+const scoreText = document.getElementById("score");
+let score = 0;
+
+game.addEventListener("pointerdown", function(e) {
+  const rect = game.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+
+  const danger = Math.random() < 0.4;
+
+  if (danger) {
+    const crow = document.createElement("div");
+    crow.className = "crow";
+    crow.textContent = "🐦‍⬛";
+    crow.style.left = x + "px";
+    crow.style.top = y + "px";
+    game.appendChild(crow);
+    setTimeout(() => crow.remove(), 900);
+  } else {
+    const worm = document.createElement("div");
+    worm.className = "worm";
+    worm.textContent = "🐛";
+    worm.style.left = x + "px";
+    worm.style.top = y + "px";
+    game.appendChild(worm);
+
+    score++;
+    scoreText.textContent = "Skor: " + score;
+    setTimeout(() => worm.remove(), 1200);
+  }
+});
+</script>
+</body>
+</html>
